@@ -8,7 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from dbhandling import ManageApplications
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -37,9 +37,9 @@ class Ui_MainWindow(object):
         self.label4 = QtWidgets.QLabel(self.centralwidget)
         self.label4.setGeometry(QtCore.QRect(64, 110, 47, 13))
         self.label4.setObjectName("label4")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(150, 110, 171, 20))
-        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit4 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit4.setGeometry(QtCore.QRect(150, 110, 171, 20))
+        self.lineEdit4.setObjectName("lineEdit4")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(120, 150, 75, 23))
         self.pushButton.setObjectName("pushButton")
@@ -54,6 +54,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        self.pushButton.clicked.connect(self.pushButtonFunc)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -63,8 +65,19 @@ class Ui_MainWindow(object):
         self.label3.setText(_translate("MainWindow", "Role :"))
         self.label4.setText(_translate("MainWindow", "Location :"))
         self.pushButton.setText(_translate("MainWindow", "Add Entry"))
-
-
+    
+    #Custom files 
+    def pushButtonFunc(self):
+       newentry = ManageApplications(self.lineEdit1.text(),self.lineEdit2.text()
+                                   ,self.lineEdit3.text(),self.lineEdit4.text())
+       similarEntryExist = newentry.checkSimilarEntries()
+       
+       if(similarEntryExist):
+           print('Duplication !!!!!!')
+       else:
+           newentry.addEntry()
+           newentry.addCoverLetter2Folders()
+           
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
